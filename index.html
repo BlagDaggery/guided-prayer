@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Guided Prayer</title>
+    <meta name="description" content="Audio basics demo for Web Audio API" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+  </head>
+  <body>
+    <h1>Guided Prayer</h1>
+    <p>Things to Figure Out</p>
+    <ul>
+      <li>How to loop audio for a specified amount of time</li>
+      <li>How to schedule the prayer prompts at specific times based on the total duration of the prayer</li>
+    </ul>
+    <p>Begin Guided Prayer</p>
+    <button type="button" data-playing="false" aria-switch="true">Play/Pause</button>
+
+    <!-- Audio Elements -->
+    <audio id="background" src="audio/background-acoustic-strumming-1.mp3"></audio>
+    <audio id="adoration" src="audio/adoration-1.mp3"></audio>
+    <audio id="confession" src="audio/confession-1.mp3"></audio>
+    <audio id="thanksgiving" src="audio/thanksgiving-1.mp3"></audio>
+    <audio id="supplication" src="audio/supplication-1.mp3"></audio>
+    
+    <!-- Begin Script -->
+    <script type="text/javascript">
+        const audioContext = new AudioContext();
+        const audioElement = document.getElementById('background');
+        const track = audioContext.createMediaElementSource(audioElement);
+        const playButton = document.querySelector('button');
+        
+        let desiredDuration = 120;
+        let currDuration = 0;
+
+        track.connect(audioContext.destination);
+
+        playButton.addEventListener('click', () => {
+            // Check if context is in suspended state (autoplay policy)
+            if (audioContext.state === 'suspended') {
+                audioContext.resume();
+            }
+            
+            // Play or pause track depending on state
+            if (playButton.dataset.playing === 'false') {
+                audioElement.play();
+                playButton.dataset.playing = 'true';
+            } else if (playButton.dataset.playing === 'true') {
+                audioElement.pause();
+                playButton.dataset.playing = 'false';
+            }
+
+        });
+
+        audioElement.addEventListener('ended', () => {
+          playButton.dataset.playing = 'false';
+        });
+    
+    </script>
+  </body>
+</html>
