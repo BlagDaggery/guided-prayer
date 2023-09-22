@@ -15,15 +15,17 @@
       <li>How to schedule the prayer prompts at specific times based on the total duration of the prayer</li>
     </ul>
     <p>Begin Guided Prayer</p>
-    <button type="button" id="play" data-playing="false">Play</button>
+    <button type="button" id="play" data-playing="false">Play/Pause</button>
 
     <!-- Audio Elements -->
-    <audio id="background" src="audio/background-acoustic-strumming-1.mp3"></audio>
-    <audio id="adoration" src="audio/adoration-1.mp3"></audio>
-    <audio id="confession" src="audio/confession-1.mp3"></audio>
-    <audio id="thanksgiving" src="audio/thanksgiving-1.mp3"></audio>
-    <audio id="supplication" src="audio/supplication-1.mp3"></audio>
+    <audio id="background" src="audio/background-acoustic-strumming-1.mp3" preload="metadata"></audio>
+    <audio id="welcome" src="audio/welcome-1.mp3" preload="metadata"></audio>
+    <audio id="adoration" src="audio/adoration-1.mp3" preload="metadata"></audio>
+    <audio id="confession" src="audio/confession-1.mp3" preload="metadata"></audio>
+    <audio id="thanksgiving" src="audio/thanksgiving-1.mp3" preload="metadata"></audio>
+    <audio id="supplication" src="audio/supplication-1.mp3" preload="metadata"></audio>
     
-    <script src="script.js"></script>
+    <script src="./node_modules/tone/build/Tone.js"></script>
+    <script src="tryingtone.js"></script>
   </body>
 </html>
