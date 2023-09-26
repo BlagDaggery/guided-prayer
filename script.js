@@ -1,45 +1,39 @@
-const backgroundTrack = document.getElementById('background');
-const welcomeTrack = document.getElementById('welcome');
+const playButton = document.getElementById('play');
+const prayerLength = 120;
 
+const backgroundTrack = new Tone.Player('./audio/background-acoustic-strumming-1.mp3').toDestination();
+const adorationTrack = new Tone.Player('./audio/adoration-1.mp3').toDestination();
+const confessionTrack = new Tone.Player('./audio/confession-1.mp3').toDestination();
+const thanksgivingTrack = new Tone.Player('./audio/thanksgiving-1.mp3').toDestination();
+const supplicationTrack = new Tone.Player('./audio/supplication-1.mp3').toDestination();
 
-const audioContext = new AudioContext();
-const track = audioContext.createMediaElementSource(backgroundTrack);
-
-const playButton = document.querySelector('button');
-
-
-track.connect(audioContext.destination);
-
-playButton.addEventListener('click', () => {
-    let backgroundDuration = backgroundTrack.duration;
-    let backgroundDurationMs = backgroundDuration / 1000;
-    console.log('variable version' ,backgroundDuration);
-    console.log('direct access', backgroundTrack.duration);
-
-    // whatt?
-    // Check if context is in suspended state (autoplay policy)
-    if (audioContext.state === 'suspended') {
-        audioContext.resume();
-    }
-
-    // Play or pause track depending on state
-    if (playButton.dataset.playing === 'false') {
-        backgroundTrack.play();
-        playButton.dataset.playing = 'true';
-        
-        function playWelcome() {
-            welcomeTrack.play();
-        }
-
-        setTimeout(playWelcome,1000);
-    } else if (playButton.dataset.playing === 'true') {
-        backgroundTrack.pause();
-        playButton.dataset.playing = 'false';
-    }
-
+backgroundTrack.set({
+    fadeIn: 0.5,
+    fadeOut: 0.5,
+    loop: true
 });
 
-backgroundTrack.addEventListener('ended', () => {
-    playButton.dataset.playing = 'false';
-});
+const myTransport = Tone.Transport;
+
+backgroundTrack.sync().start(0);
+adorationTrack.sync().start(5);
+confessionTrack.sync().start(33);
+thanksgivingTrack.sync().start(61);
+supplicationTrack.sync().start(89);
+
+function playOrPause() {
+    Tone.start();
+
+    if (myTransport.state === 'stopped' || myTransport.state === 'paused') {
+        myTransport.start();
+        console.info('Prayer Started!');
+    } else {
+        myTransport.pause();
+        console.info('Prayer Paused!');
+    }
+}
+
+myTransport.stop(prayerLength);
+
+playButton.addEventListener('click', playOrPause);
 

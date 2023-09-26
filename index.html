@@ -9,23 +9,17 @@
   </head>
   <body>
     <h1>Guided Prayer</h1>
-    <p>Things to Figure Out</p>
+    <p>This web application will guide you through a time of prayer based on the A.C.T.S. framework of prayer:</p>
     <ul>
-      <li>How to loop audio for a specified amount of time</li>
-      <li>How to schedule the prayer prompts at specific times based on the total duration of the prayer</li>
+      <li>A - Adoration</li>
+      <li>C - Confession</li>
+      <li>T - Thanksgiving</li>
+      <li>S - Supplication</li>
     </ul>
-    <p>Begin Guided Prayer</p>
-    <button type="button" id="play" data-playing="false">Play/Pause</button>
-
-    <!-- Audio Elements -->
-    <audio id="background" src="audio/background-acoustic-strumming-1.mp3" preload="metadata"></audio>
-    <audio id="welcome" src="audio/welcome-1.mp3" preload="metadata"></audio>
-    <audio id="adoration" src="audio/adoration-1.mp3" preload="metadata"></audio>
-    <audio id="confession" src="audio/confession-1.mp3" preload="metadata"></audio>
-    <audio id="thanksgiving" src="audio/thanksgiving-1.mp3" preload="metadata"></audio>
-    <audio id="supplication" src="audio/supplication-1.mp3" preload="metadata"></audio>
-    
+    <p>Use the button below to play and pause a 2-minute A.C.T.S. prayer.</p>
+    <button type="button" id="play">Play/Pause Your Guided Prayer</button>
+    <p>Open the console to see "started" vs. "paused" status</p>
     <script src="./node_modules/tone/build/Tone.js"></script>
-    <script src="tryingtone.js"></script>
+    <script src="script.js"></script>
   </body>
 </html>
