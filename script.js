@@ -1,6 +1,7 @@
 const playButton = document.getElementById('play');
 const prayerLength = 120;
 
+const myTransport = Tone.Transport;
 const backgroundTrack = new Tone.Player('./audio/background-acoustic-strumming-1.mp3').toDestination();
 const adorationTrack = new Tone.Player('./audio/adoration-1.mp3').toDestination();
 const confessionTrack = new Tone.Player('./audio/confession-1.mp3').toDestination();
@@ -13,8 +14,6 @@ backgroundTrack.set({
     loop: true
 });
 
-const myTransport = Tone.Transport;
-
 backgroundTrack.sync().start(0);
 adorationTrack.sync().start(5);
 confessionTrack.sync().start(33);
@@ -24,16 +23,24 @@ supplicationTrack.sync().start(89);
 function playOrPause() {
     Tone.start();
 
-    if (myTransport.state === 'stopped' || myTransport.state === 'paused') {
-        myTransport.start();
-        console.info('Prayer Started!');
-    } else {
-        myTransport.pause();
-        console.info('Prayer Paused!');
+    switch (myTransport.state) {
+        case 'paused':
+        case 'stopped':
+            myTransport.start();
+            playButton.textContent = 'Pause Your Guided Prayer';
+            break;
+        case 'started':
+            myTransport.pause();
+            playButton.textContent = 'Resume Your Guided Prayer';
+            break;
     }
 }
 
+function resetPlayButtonText() {
+    playButton.textContent = 'Begin Your Guided Prayer';
+}
+
+myTransport.on('stop', resetPlayButtonText);
 myTransport.stop(prayerLength);
 
 playButton.addEventListener('click', playOrPause);
-
