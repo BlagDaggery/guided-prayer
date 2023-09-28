@@ -1,7 +1,15 @@
-const playButton = document.getElementById('play');
-const prayerLength = 120;
+const introOffestSeconds = 5;
+const prayerLengthSelect = document.getElementById('prayerLengthSelect');
 
-const myTransport = Tone.Transport;
+let prayerLength = prayerLengthSelect.value * 60;
+let prayerSegmentLength = (prayerLength - introOffestSeconds) / 4;
+
+const beginText = 'Begin Your Guided Prayer';
+const pauseText = 'Pause Your Guided Prayer';
+const resumeText = 'Resume Your Guided Prayer';
+
+const playButton = document.getElementById('play');
+
 const backgroundTrack = new Tone.Player('./audio/background-acoustic-strumming-1.mp3').toDestination();
 const adorationTrack = new Tone.Player('./audio/adoration-1.mp3').toDestination();
 const confessionTrack = new Tone.Player('./audio/confession-1.mp3').toDestination();
@@ -14,33 +22,45 @@ backgroundTrack.set({
     loop: true
 });
 
-backgroundTrack.sync().start(0);
-adorationTrack.sync().start(5);
-confessionTrack.sync().start(33);
-thanksgivingTrack.sync().start(61);
-supplicationTrack.sync().start(89);
-
 function playOrPause() {
     Tone.start();
 
-    switch (myTransport.state) {
-        case 'paused':
+    switch (Tone.Transport.state) {
         case 'stopped':
-            myTransport.start();
-            playButton.textContent = 'Pause Your Guided Prayer';
+            prayerLength = getNewPrayerLength();
+            prayerSegmentLength = getNewSegmentLength();
+            backgroundTrack.sync().start(0);
+            adorationTrack.sync().start(introOffestSeconds);
+            confessionTrack.sync().start(introOffestSeconds + prayerSegmentLength);
+            thanksgivingTrack.sync().start(introOffestSeconds + (prayerSegmentLength * 2));
+            supplicationTrack.sync().start(introOffestSeconds + (prayerSegmentLength * 3));
+            Tone.Transport.start(0);
+            Tone.Transport.stop(prayerLength);
+            playButton.textContent = pauseText;
+            break;
+        case 'paused':
+            Tone.Transport.start();
+            playButton.textContent = pauseText;
             break;
         case 'started':
-            myTransport.pause();
-            playButton.textContent = 'Resume Your Guided Prayer';
+            Tone.Transport.pause();
+            playButton.textContent = resumeText;
             break;
     }
 }
 
-function resetPlayButtonText() {
-    playButton.textContent = 'Begin Your Guided Prayer';
+function getNewPrayerLength() {
+    return document.getElementById('prayerLengthSelect').value * 60;
 }
 
-myTransport.on('stop', resetPlayButtonText);
-myTransport.stop(prayerLength);
+function getNewSegmentLength() {
+    return ((document.getElementById('prayerLengthSelect').value * 60) - introOffestSeconds) / 4;
+}
+
+function resetPlayButtonText() {
+    playButton.remove();
+    document.getElementById('refreshText').classList.remove('hidden');
+}
 
 playButton.addEventListener('click', playOrPause);
+Tone.Transport.on('stop', resetPlayButtonText);

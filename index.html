@@ -6,6 +6,11 @@
     <meta name="description" content="Guided Prayer is web application that will guide a person through a time of prayer." />
     <link rel="icon" href="favicon.ico" />
     <title>Guided Prayer | BlagDaggery</title>
+    <style>
+      .hidden {
+        display: none;
+      }
+    </style>
   </head>
   <body>
     <h1>Guided Prayer</h1>
@@ -16,8 +21,20 @@
       <li>T - Thanksgiving</li>
       <li>S - Supplication</li>
     </ul>
-    <p>Use the button below to begin a two-minute, guided prayer.</p>
+    <label for="prayerLengthSelect">Select the duration of your prayer:</label>
+    <select name="prayer-length" id="prayerLengthSelect">
+      <option value="1">1 Minute</option>
+      <option value="2">2 Minutes</option>
+      <option value="3">3 Minutes</option>
+
+      <!-- <option value="5">5 Minutes</option>
+      <option value="10">10 Minutes</option>
+      <option value="15">15 Minutes</option>
+      <option value="30">30 Minutes</option>
+      <option value="60">1 Hour</option> -->
+    </select>
     <button type="button" id="play">Begin Your Guided Prayer</button>
+    <p class="hidden" id="refreshText">Refresh the page to begin a new prayer session.</p>
     <script src="./node_modules/tone/build/Tone.js"></script>
     <script src="script.js"></script>
   </body>
