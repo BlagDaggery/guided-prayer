@@ -4,9 +4,7 @@ const prayerLengthSelect = document.getElementById('prayerLengthSelect');
 let prayerLength = prayerLengthSelect.value * 60;
 let prayerSegmentLength = (prayerLength - introOffestSeconds) / 4;
 
-const beginText = 'Begin Your Guided Prayer';
-const pauseText = 'Pause Your Guided Prayer';
-const resumeText = 'Resume Your Guided Prayer';
+const stopText = 'Stop Your Guided Prayer';
 
 const playButton = document.getElementById('play');
 
@@ -36,15 +34,10 @@ function playOrPause() {
             supplicationTrack.sync().start(introOffestSeconds + (prayerSegmentLength * 3));
             Tone.Transport.start(0);
             Tone.Transport.stop(prayerLength);
-            playButton.textContent = pauseText;
-            break;
-        case 'paused':
-            Tone.Transport.start();
-            playButton.textContent = pauseText;
+            playButton.textContent = stopText;
             break;
         case 'started':
-            Tone.Transport.pause();
-            playButton.textContent = resumeText;
+            Tone.Transport.stop();            
             break;
     }
 }
